@@ -26,9 +26,13 @@ function search() {
         return;
     }
     const uriGameName = encodeURIComponent(gameName);
+
+    const platform = getPlatform();
+    const uriPlatform = encodeURIComponent(platform);
+
     const userName = getUserName();
     window.open(
-        'https://www.backloggery.com/games.php?user=' + userName + '&search=' + uriGameName,
+        `https://www.backloggery.com/games.php?user=${userName}&search=${uriGameName}&console=${uriPlatform}`,
         '_blank'
     );
 }
@@ -36,6 +40,12 @@ function search() {
 function getGameName() {
     const nameInput = document.body.querySelector('input[name="name"]');
     return nameInput.value;
+}
+
+function getPlatform() {
+    const platformSelectionElement = document.body.querySelector('select[name="console"]');
+    const platform = platformSelectionElement.value;
+    return platform;
 }
 
 function getUserName() {
