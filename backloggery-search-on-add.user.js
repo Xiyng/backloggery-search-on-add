@@ -25,16 +25,15 @@ function search() {
     if (gameName.length < 1) {
         return;
     }
-    const uriGameName = encodeURIComponent(gameName);
-
     const platform = getPlatform();
-    const uriPlatform = encodeURIComponent(platform);
-
     const userName = getUserName();
-    window.open(
-        `https://www.backloggery.com/games.php?user=${userName}&search=${uriGameName}&console=${uriPlatform}`,
-        '_blank'
-    );
+
+    const parameters = convertObjectToGetParameters({
+        user: userName,
+        search: gameName,
+        console: platform
+    });
+    window.open(`https://www.backloggery.com/games.php?${parameters}`, '_blank');
 }
 
 function getGameName() {
@@ -66,4 +65,10 @@ function getParameterFromParameterString(parameterString, parameterName) {
     const wantedParameter = parameters.find(parameter => parameter.startsWith(parameterName + '='));
     const parameterValue = wantedParameter.substring(wantedParameter.indexOf('=') + 1);
     return parameterValue;
+}
+
+function convertObjectToGetParameters(object) {
+    return Object.entries(object).
+        map(pair => encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]))
+        .join('&');
 }
