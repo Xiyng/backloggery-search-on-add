@@ -3,7 +3,7 @@
 // @author   Xiyng
 // @version  0.1
 // @grant    none
-// @include  https://www.backloggery.com/newgame.php?user=*
+// @include  https://backloggery.com/newgame.php?user=*
 // @run-at   document-idle
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
@@ -33,7 +33,7 @@ function search() {
         search: gameName,
         console: platform
     });
-    window.open(`https://www.backloggery.com/games.php?${parameters}`, '_blank');
+    window.open(`https://backloggery.com/games.php?${parameters}`, '_blank');
 }
 
 function getGameName() {
