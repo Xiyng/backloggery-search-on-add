@@ -10,6 +10,8 @@
 
 'use strict';
 
+const baseUrl = 'https://backloggery.com';
+
 run();
 
 function run() {
@@ -33,7 +35,7 @@ function search() {
         search: gameName,
         console: platform
     });
-    window.open(`https://backloggery.com/games.php?${parameters}`, '_blank');
+    window.open(`${baseUrl}/games.php?${parameters}`, '_blank');
 }
 
 function getGameName() {
