@@ -5,7 +5,6 @@
 // @grant    GM.xmlHttpRequest
 // @include  https://backloggery.com/newgame.php?user=*
 // @run-at   document-idle
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
 
 'use strict';
@@ -21,9 +20,25 @@ initialize();
 function initialize() {
     const addGameButton = document.body.querySelector('input[value="Add Game"]');
     const addGameButtonContainer = addGameButton.parentNode;
-    const searchResultContainer = $('<div><p><b>Similar games</b></p><ul class="searchResultContainer"></ul></div>')[0];
+    const searchResultContainer = createSearchResultContainer();
     addGameButtonContainer.parentNode.insertBefore(searchResultContainer, addGameButtonContainer);
     document.body.querySelector('input[name="name"]').addEventListener('input', updateSearchResults);
+}
+
+function createSearchResultContainer() {
+    const div = document.createElement('div');
+
+    const p = document.createElement('p');
+    const b = document.createElement('b');
+    b.textContent = 'Similar games';
+    p.appendChild(b);
+    div.appendChild(p);
+
+    const ul = document.createElement('ul');
+    ul.className = 'searchResultContainer';
+    div.appendChild(ul);
+
+    return div;
 }
 
 async function updateSearchResults() {
