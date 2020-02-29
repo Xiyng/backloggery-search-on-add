@@ -150,9 +150,11 @@ function parseGameNamesFromSearchResponse(response) {
 
 function createSearchElements(gameNames) {
     if (gameNames.length < 1) {
-        const element = document.createElement('li');
-        element.textContent = '<No matching games>';
-        return [element]
+        const li = document.createElement('li');
+        const i = document.createElement('i');
+        i.textContent = '<No similar games>';
+        li.appendChild(i);
+        return [li]
      } else {
         return gameNames.map(gameName => {
             const element = document.createElement('li');
