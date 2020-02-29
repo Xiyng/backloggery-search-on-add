@@ -11,6 +11,10 @@
 'use strict';
 
 const baseUrl = 'https://backloggery.com';
+const minSearchintervalMilliSeconds = 2000;
+
+let searchTimeout = null;
+let lastSearchDate = new Date();
 
 initialize();
 
@@ -23,6 +27,10 @@ function initialize() {
 }
 
 async function updateSearchResults() {
+    if (updateSearchTimeout()) {
+        return;
+    }
+    lastSearchDate = new Date();
     clearSearchResults();
     const foundGameNames = await search();
     const searchResultElements = createSearchElements(foundGameNames);
@@ -31,8 +39,22 @@ async function updateSearchResults() {
     }
 }
 
+function updateSearchTimeout() {
+    const now = new Date();
+    const milliSecondsSinceLastSearch = now.getTime() - lastSearchDate.getTime();
+    if (milliSecondsSinceLastSearch >= minSearchintervalMilliSeconds) {
+        return false;
+    }
+    const delayMilliseconds = minSearchintervalMilliSeconds - milliSecondsSinceLastSearch;
+    if (searchTimeout) {
+        window.clearTimeout(searchTimeout);
+    }
+    searchTimeout = window.setTimeout(updateSearchResults, minSearchintervalMilliSeconds, delayMilliseconds);
+    return true;
+}
+
 function clearSearchResults() {
-    $('.searchResultContainer').empty();
+    document.querySelector('.searchResultContainer').innerHTML = '';
 }
 
 async function search() {
