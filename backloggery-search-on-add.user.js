@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name     Backloggery Search on Add
 // @author   Xiyng
-// @version  0.1
-// @grant    none
+// @version  0.2
+// @grant    GM.xmlHttpRequest
 // @include  https://backloggery.com/newgame.php?user=*
 // @run-at   document-idle
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
@@ -12,17 +12,30 @@
 
 const baseUrl = 'https://backloggery.com';
 
-run();
+initialize();
 
-function run() {
+function initialize() {
     const addGameButton = document.body.querySelector('input[value="Add Game"]');
     const addGameButtonContainer = addGameButton.parentNode;
-    const searchButton = $('<input type="button" value="Search">')[0];
-    addGameButtonContainer.prepend(searchButton);
-    searchButton.addEventListener('click', search);
+    const searchResultContainer = $('<div><p><b>Similar games</b></p><ul class="searchResultContainer"></ul></div>')[0];
+    addGameButtonContainer.parentNode.insertBefore(searchResultContainer, addGameButtonContainer);
+    document.body.querySelector('input[name="name"]').addEventListener('input', updateSearchResults);
 }
 
-function search() {
+async function updateSearchResults() {
+    clearSearchResults();
+    const foundGameNames = await search();
+    const searchResultElements = createSearchElements(foundGameNames);
+    for (const element of searchResultElements) {
+        document.querySelector('.searchResultContainer').appendChild(element);
+    }
+}
+
+function clearSearchResults() {
+    $('.searchResultContainer').empty();
+}
+
+async function search() {
     const gameName = getGameName();
     if (gameName.length < 1) {
         return;
@@ -30,12 +43,8 @@ function search() {
     const platform = getPlatform();
     const userName = getUserName();
 
-    const parameters = convertObjectToGetParameters({
-        user: userName,
-        search: gameName,
-        console: platform
-    });
-    window.open(`${baseUrl}/games.php?${parameters}`, '_blank');
+    const foundGameNames = await getSearchResults(userName, gameName, platform);
+    return foundGameNames;
 }
 
 function getGameName() {
@@ -69,8 +78,49 @@ function getParameterFromParameterString(parameterString, parameterName) {
     return parameterValue;
 }
 
+async function getSearchResults(userName, gameName, platform) {
+    const parameters = convertObjectToGetParameters({
+        user: userName,
+        search: gameName,
+        console: platform,
+        ajid: 0 // This is required for some reason.
+    });
+    const response = await new Promise(resolve =>
+        GM.xmlHttpRequest({
+            method: 'GET',
+            url: `ajax_moregames.php?${parameters}`,
+            onload: resolve
+        })
+    );
+    return parseGameNamesFromSearchResponse(response);
+}
+
 function convertObjectToGetParameters(object) {
     return Object.entries(object).
         map(pair => encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]))
         .join('&');
+}
+
+function parseGameNamesFromSearchResponse(response) {
+    const html = response.responseText;
+    const element = document.createElement('div');
+    element.innerHTML = html;
+    const gameNameElements = element.querySelectorAll('.gamebox:not(.systemend) h2 b');
+    const gameNames = [...gameNameElements].map(gameNameElement => gameNameElement.textContent.trim());
+    element.remove();
+    return gameNames;
+}
+
+function createSearchElements(gameNames) {
+    if (gameNames.length < 1) {
+        const element = document.createElement('li');
+        element.textContent = '<No matching games>';
+        return [element]
+     } else {
+        return gameNames.map(gameName => {
+            const element = document.createElement('li');
+            element.textContent = gameName;
+            return element;
+        });
+    }
 }
