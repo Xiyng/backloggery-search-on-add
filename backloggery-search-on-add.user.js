@@ -9,6 +9,10 @@
 
 'use strict';
 
+const SEARCH_CONTAINER_CLASS_NAME = 'searchContainer'
+const SEARCH_RESULT_CONTAINER_CLASS_NAME = 'searchResultContainer';
+const SEARCH_ANIMATION_CLASS_NAME = 'searchAnimation';
+
 const MIN_SEARCH_INTERVAL_MILLISECONDS = 2000;
 
 let searchTimeout = null;
@@ -27,7 +31,7 @@ function initialize() {
 
 function createSearchContainer() {
     const div = document.createElement('div');
-    div.className = 'searchContainer';
+    div.className = SEARCH_CONTAINER_CLASS_NAME;
 
     const p = document.createElement('p');
     const b = document.createElement('b');
@@ -36,7 +40,7 @@ function createSearchContainer() {
     div.appendChild(p);
 
     const ul = document.createElement('ul');
-    ul.className = 'searchResultContainer';
+    ul.className = SEARCH_RESULT_CONTAINER_CLASS_NAME;
     div.appendChild(ul);
 
     const animationContainer = createSearchAnimationContainer();
@@ -47,7 +51,7 @@ function createSearchContainer() {
 
 function createSearchAnimationContainer() {
     const div = document.createElement('div');
-    div.className = 'searchAnimation';
+    div.className = SEARCH_ANIMATION_CLASS_NAME;
     div.style.border = '1px solid lightgrey';
     div.style.borderTop = '1px solid black';
     div.style.borderWidth = '5px';
@@ -81,7 +85,7 @@ async function updateSearchResults() {
     }
     const searchResultElements = createSearchElements(foundGameNames);
     for (const element of searchResultElements) {
-        document.querySelector('.searchResultContainer').appendChild(element);
+        document.getElementsByClassName(SEARCH_RESULT_CONTAINER_CLASS_NAME)[0].appendChild(element);
     }
 }
 
@@ -100,7 +104,7 @@ function updateSearchTimeout() {
 }
 
 function clearSearchResults() {
-    document.querySelector('.searchResultContainer').innerHTML = '';
+    document.getElementsByClassName(SEARCH_RESULT_CONTAINER_CLASS_NAME)[0].innerHTML = '';
 }
 
 async function search() {
@@ -181,21 +185,21 @@ function parseGameNamesFromSearchResponse(response) {
 
 function showLoadingAnimation() {
     showSearchContainer();
-    document.querySelector('.searchResultContainer').style.display = 'none';
-    document.querySelector('.searchAnimation').style.display = 'block';
+    document.getElementsByClassName(SEARCH_RESULT_CONTAINER_CLASS_NAME)[0].style.display = 'none';
+    document.getElementsByClassName(SEARCH_ANIMATION_CLASS_NAME)[0].style.display = 'block';
 }
 
 function hideLoadingAnimation() {
-    document.querySelector('.searchAnimation').style.display = 'none';
-    document.querySelector('.searchResultContainer').style.display = 'block';
+    document.getElementsByClassName(SEARCH_ANIMATION_CLASS_NAME)[0].style.display = 'none';
+    document.getElementsByClassName(SEARCH_RESULT_CONTAINER_CLASS_NAME)[0].style.display = 'block';
 }
 
 function showSearchContainer() {
-    document.querySelector('.searchContainer').style.display = 'block';
+    document.getElementsByClassName(SEARCH_CONTAINER_CLASS_NAME)[0].style.display = 'block';
 }
 
 function hideSearchContainer() {
-    document.querySelector('.searchContainer').style.display = 'none';
+    document.getElementsByClassName(SEARCH_CONTAINER_CLASS_NAME)[0].style.display = 'none';
 }
 
 function createSearchElements(gameNames) {
