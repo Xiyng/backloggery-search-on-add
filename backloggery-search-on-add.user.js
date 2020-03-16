@@ -68,7 +68,7 @@ function createSearchAnimationContainer() {
 
 async function updateSearchResults() {
     showLoadingAnimation();
-    if (updateSearchTimeout()) {
+    if (getGameName().length > 1 && updateSearchTimeout()) {
         return;
     }
     lastSearchDate = new Date();
