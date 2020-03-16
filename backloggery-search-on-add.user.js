@@ -17,6 +17,7 @@ const SEARCH_ANIMIATION_BORDER_WIDTH = '0.5em';
 const SEARCH_ANIMATION_BACKGROUND_COLOUR = 'lightgrey';
 const SEARCH_ANIMATION_MAIN_COLOUR = 'black';
 const SEARCH_ANIMATION_CIRCLE_RADIUS = '2em';
+const SEARCH_ANIMATION_DURATION_MILLISECONDS = 1000;
 
 const MIN_SEARCH_INTERVAL_MILLISECONDS = 2000;
 const FETCH_GAMES_URL = 'ajax_moregames.php';
@@ -70,7 +71,7 @@ function createSearchAnimationContainer() {
         { transform: 'rotate(0deg)' },
         { transform: 'rotate(360deg)' }
     ], {
-        duration: 1000,
+        duration: SEARCH_ANIMATION_DURATION_MILLISECONDS,
         iterations: Infinity
     });
     return div;
