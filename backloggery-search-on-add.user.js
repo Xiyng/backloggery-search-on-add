@@ -67,12 +67,12 @@ function createSearchAnimationContainer() {
 }
 
 async function updateSearchResults() {
+    showLoadingAnimation();
     if (updateSearchTimeout()) {
         return;
     }
     lastSearchDate = new Date();
     clearSearchResults();
-    showLoadingAnimation();
     const foundGameNames = await search();
     hideLoadingAnimation();
     if (foundGameNames) {
