@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name     Backloggery Search on Add
 // @author   Xiyng
-// @version  0.2
+// @version  0.3
 // @grant    GM.xmlHttpRequest
 // @include  https://backloggery.com/newgame.php?user=*
 // @run-at   document-idle
@@ -22,6 +22,8 @@ function initialize() {
     const addGameButtonContainer = addGameButton.parentNode;
     const searchResultContainer = createSearchResultContainer();
     addGameButtonContainer.parentNode.insertBefore(searchResultContainer, addGameButtonContainer);
+    const searchAnimationContainer = createSearchAnimationContainer();
+    addGameButtonContainer.parentNode.insertBefore(searchAnimationContainer, addGameButtonContainer);
     document.body.querySelector('input[name="name"]').addEventListener('input', updateSearchResults);
 }
 
@@ -41,13 +43,35 @@ function createSearchResultContainer() {
     return div;
 }
 
+function createSearchAnimationContainer() {
+    const div = document.createElement('div');
+    div.className = 'searchAnimation';
+    div.style.border = '1px solid lightgrey';
+    div.style.borderTop = '1px solid black';
+    div.style.borderWidth = '5px';
+    div.style.borderRadius = '50%';
+    div.style.width = '2em';
+    div.style.height = '2em';
+    div.style.marginBottom = '1em';
+    div.animate([
+        { transform: 'rotate(0deg)' },
+        { transform: 'rotate(360deg)' }
+    ], {
+        duration: 1000,
+        iterations: Infinity
+    });
+    return div;
+}
+
 async function updateSearchResults() {
     if (updateSearchTimeout()) {
         return;
     }
     lastSearchDate = new Date();
     clearSearchResults();
+    showLoadingAnimation();
     const foundGameNames = await search();
+    hideLoadingAnimation();
     const searchResultElements = createSearchElements(foundGameNames);
     for (const element of searchResultElements) {
         document.querySelector('.searchResultContainer').appendChild(element);
@@ -146,6 +170,16 @@ function parseGameNamesFromSearchResponse(response) {
     const gameNames = [...gameNameElements].map(gameNameElement => gameNameElement.textContent.trim());
     element.remove();
     return gameNames;
+}
+
+function showLoadingAnimation() {
+    document.querySelector('.searchResultContainer').style.display = 'none';
+    document.querySelector('.searchAnimation').style.display = 'block';
+}
+
+function hideLoadingAnimation() {
+    document.querySelector('.searchAnimation').style.display = 'none';
+    document.querySelector('.searchResultContainer').style.display = 'block';
 }
 
 function createSearchElements(gameNames) {
