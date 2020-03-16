@@ -29,6 +29,7 @@ function initialize() {
 
 function createSearchResultContainer() {
     const div = document.createElement('div');
+    div.className = 'searchContainer';
 
     const p = document.createElement('p');
     const b = document.createElement('b');
@@ -72,6 +73,11 @@ async function updateSearchResults() {
     showLoadingAnimation();
     const foundGameNames = await search();
     hideLoadingAnimation();
+    if (foundGameNames) {
+        showSearchContainer();
+    } else {
+        hideSearchContainer();
+    }
     const searchResultElements = createSearchElements(foundGameNames);
     for (const element of searchResultElements) {
         document.querySelector('.searchResultContainer').appendChild(element);
@@ -99,7 +105,7 @@ function clearSearchResults() {
 async function search() {
     const gameName = getGameName();
     if (gameName.length < 1) {
-        return;
+        return null;
     }
     const platform = getPlatform();
     const userName = getUserName();
@@ -180,6 +186,14 @@ function showLoadingAnimation() {
 function hideLoadingAnimation() {
     document.querySelector('.searchAnimation').style.display = 'none';
     document.querySelector('.searchResultContainer').style.display = 'block';
+}
+
+function showSearchContainer() {
+    document.querySelector('.searchContainer').style.display = 'block';
+}
+
+function hideSearchContainer() {
+    document.querySelector('.searchContainer').style.display = 'none';
 }
 
 function createSearchElements(gameNames) {
