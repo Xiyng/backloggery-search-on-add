@@ -181,6 +181,7 @@ function parseGameNamesFromSearchResponse(response) {
 }
 
 function showLoadingAnimation() {
+    showSearchContainer();
     document.querySelector('.searchResultContainer').style.display = 'none';
     document.querySelector('.searchAnimation').style.display = 'block';
 }
