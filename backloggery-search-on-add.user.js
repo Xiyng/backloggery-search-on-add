@@ -53,10 +53,11 @@ function createSearchContainer() {
 function createSearchAnimationContainer() {
     const div = document.createElement('div');
     div.className = SEARCH_ANIMATION_CLASS_NAME;
-    div.style.border = '1px solid lightgrey';
-    div.style.borderTop = '1px solid black';
+    div.style.borderStyle = 'solid';
     div.style.borderWidth = '5px';
     div.style.borderRadius = '50%';
+    div.style.borderColor = 'lightgrey';
+    div.style.borderTopColor = 'black';
     div.style.width = '2em';
     div.style.height = '2em';
     div.style.marginBottom = '1em';
