@@ -14,6 +14,9 @@ const SEARCH_RESULT_CONTAINER_CLASS_NAME = 'searchResultContainer';
 const SEARCH_ANIMATION_CLASS_NAME = 'searchAnimation';
 
 const SEARCH_ANIMIATION_BORDER_WIDTH = '0.5em';
+const SEARCH_ANIMATION_BACKGROUND_COLOUR = 'lightgrey';
+const SEARCH_ANIMATION_MAIN_COLOUR = 'black';
+const SEARCH_ANIMATION_CIRCLE_RADIUS = '2em';
 
 const MIN_SEARCH_INTERVAL_MILLISECONDS = 2000;
 const FETCH_GAMES_URL = 'ajax_moregames.php';
@@ -58,10 +61,10 @@ function createSearchAnimationContainer() {
     div.style.borderStyle = 'solid';
     div.style.borderWidth = SEARCH_ANIMIATION_BORDER_WIDTH;
     div.style.borderRadius = '50%';
-    div.style.borderColor = 'lightgrey';
-    div.style.borderTopColor = 'black';
-    div.style.width = '2em';
-    div.style.height = '2em';
+    div.style.borderColor = SEARCH_ANIMATION_BACKGROUND_COLOUR;
+    div.style.borderTopColor = SEARCH_ANIMATION_MAIN_COLOUR;
+    div.style.width = SEARCH_ANIMATION_CIRCLE_RADIUS;
+    div.style.height = SEARCH_ANIMATION_CIRCLE_RADIUS;
     div.style.marginBottom = '1em';
     div.animate([
         { transform: 'rotate(0deg)' },
