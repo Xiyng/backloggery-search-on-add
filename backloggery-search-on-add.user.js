@@ -14,6 +14,7 @@ const SEARCH_RESULT_CONTAINER_CLASS_NAME = 'searchResultContainer';
 const SEARCH_ANIMATION_CLASS_NAME = 'searchAnimation';
 
 const MIN_SEARCH_INTERVAL_MILLISECONDS = 2000;
+const FETCH_GAMES_URL = 'ajax_moregames.php';
 
 let searchTimeout = null;
 let lastSearchDate = new Date();
@@ -160,7 +161,7 @@ async function getSearchResults(userName, gameName, platform) {
     const response = await new Promise(resolve =>
         GM.xmlHttpRequest({
             method: 'GET',
-            url: `ajax_moregames.php?${parameters}`,
+            url: `${FETCH_GAMES_URL}?${parameters}`,
             onload: resolve
         })
     );
