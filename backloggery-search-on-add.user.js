@@ -9,7 +9,6 @@
 
 'use strict';
 
-const baseUrl = 'https://backloggery.com';
 const minSearchintervalMilliSeconds = 2000;
 
 let searchTimeout = null;
