@@ -20,14 +20,13 @@ initialize();
 function initialize() {
     const addGameButton = document.body.querySelector('input[value="Add Game"]');
     const addGameButtonContainer = addGameButton.parentNode;
-    const searchResultContainer = createSearchResultContainer();
-    addGameButtonContainer.parentNode.insertBefore(searchResultContainer, addGameButtonContainer);
-    const searchAnimationContainer = createSearchAnimationContainer();
-    addGameButtonContainer.parentNode.insertBefore(searchAnimationContainer, addGameButtonContainer);
+    const searchContainer = createSearchContainer();
+    addGameButtonContainer.parentNode.insertBefore(searchContainer, addGameButtonContainer);
+    hideSearchContainer();
     document.body.querySelector('input[name="name"]').addEventListener('input', updateSearchResults);
 }
 
-function createSearchResultContainer() {
+function createSearchContainer() {
     const div = document.createElement('div');
     div.className = 'searchContainer';
 
@@ -40,6 +39,9 @@ function createSearchResultContainer() {
     const ul = document.createElement('ul');
     ul.className = 'searchResultContainer';
     div.appendChild(ul);
+
+    const animationContainer = createSearchAnimationContainer();
+    div.appendChild(animationContainer);
 
     return div;
 }
