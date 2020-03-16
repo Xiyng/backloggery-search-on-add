@@ -68,8 +68,8 @@ function createSearchAnimationContainer() {
     div.style.height = SEARCH_ANIMATION_CIRCLE_RADIUS;
     div.style.marginBottom = '1em';
     div.animate([
-        { transform: 'rotate(0deg)' },
-        { transform: 'rotate(360deg)' }
+        { transform: 'rotate(0)' },
+        { transform: 'rotate(1turn)' }
     ], {
         duration: SEARCH_ANIMATION_DURATION_MILLISECONDS,
         iterations: Infinity
