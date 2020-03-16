@@ -9,7 +9,7 @@
 
 'use strict';
 
-const minSearchintervalMilliSeconds = 2000;
+const MIN_SEARCH_INTERVAL_MILLISECONDS = 2000;
 
 let searchTimeout = null;
 let lastSearchDate = new Date();
@@ -88,14 +88,14 @@ async function updateSearchResults() {
 function updateSearchTimeout() {
     const now = new Date();
     const milliSecondsSinceLastSearch = now.getTime() - lastSearchDate.getTime();
-    if (milliSecondsSinceLastSearch >= minSearchintervalMilliSeconds) {
+    if (milliSecondsSinceLastSearch >= MIN_SEARCH_INTERVAL_MILLISECONDS) {
         return false;
     }
-    const delayMilliseconds = minSearchintervalMilliSeconds - milliSecondsSinceLastSearch;
+    const delayMilliseconds = MIN_SEARCH_INTERVAL_MILLISECONDS - milliSecondsSinceLastSearch;
     if (searchTimeout) {
         window.clearTimeout(searchTimeout);
     }
-    searchTimeout = window.setTimeout(updateSearchResults, minSearchintervalMilliSeconds, delayMilliseconds);
+    searchTimeout = window.setTimeout(updateSearchResults, MIN_SEARCH_INTERVAL_MILLISECONDS, delayMilliseconds);
     return true;
 }
 
