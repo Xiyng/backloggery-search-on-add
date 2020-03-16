@@ -13,6 +13,8 @@ const SEARCH_CONTAINER_CLASS_NAME = 'searchContainer'
 const SEARCH_RESULT_CONTAINER_CLASS_NAME = 'searchResultContainer';
 const SEARCH_ANIMATION_CLASS_NAME = 'searchAnimation';
 
+const SEARCH_ANIMIATION_BORDER_WIDTH = '0.5em';
+
 const MIN_SEARCH_INTERVAL_MILLISECONDS = 2000;
 const FETCH_GAMES_URL = 'ajax_moregames.php';
 
@@ -54,7 +56,7 @@ function createSearchAnimationContainer() {
     const div = document.createElement('div');
     div.className = SEARCH_ANIMATION_CLASS_NAME;
     div.style.borderStyle = 'solid';
-    div.style.borderWidth = '5px';
+    div.style.borderWidth = SEARCH_ANIMIATION_BORDER_WIDTH;
     div.style.borderRadius = '50%';
     div.style.borderColor = 'lightgrey';
     div.style.borderTopColor = 'black';
