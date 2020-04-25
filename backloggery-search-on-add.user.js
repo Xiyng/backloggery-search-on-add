@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name     Backloggery Search on Add
 // @author   Xiyng
-// @version  0.3
+// @version  0.3.1
 // @grant    GM.xmlHttpRequest
 // @include  https://backloggery.com/newgame.php?user=*
 // @run-at   document-idle
