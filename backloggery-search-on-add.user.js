@@ -34,6 +34,7 @@ function initialize() {
     addGameButtonContainer.parentNode.insertBefore(searchContainer, addGameButtonContainer);
     hideSearchContainer();
     document.body.querySelector('input[name="name"]').addEventListener('input', updateSearchResults);
+    document.body.querySelector('select[name="console"]').addEventListener('change', updateSearchResults);
 }
 
 function createSearchContainer() {
