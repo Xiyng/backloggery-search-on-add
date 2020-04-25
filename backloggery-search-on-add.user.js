@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name     Backloggery Search on Add
 // @author   Xiyng
-// @version  0.3
+// @version  0.4
 // @grant    GM.xmlHttpRequest
 // @include  https://backloggery.com/newgame.php?user=*
 // @run-at   document-idle
@@ -159,10 +159,11 @@ function getParameterFromParameterString(parameterString, parameterName) {
 }
 
 async function getSearchResults(userName, gameName, platform) {
+    const platformCode = convertPlatformNameToSearchValue(platform);
     const parameters = convertObjectToGetParameters({
         user: userName,
         search: gameName,
-        console: platform,
+        console: platformCode,
         ajid: 0 // This is required for some reason.
     });
     const response = await new Promise(resolve =>
@@ -173,6 +174,24 @@ async function getSearchResults(userName, gameName, platform) {
         })
     );
     return parseGameNamesFromSearchResponse(response);
+}
+
+function convertPlatformNameToSearchValue(platformName) {
+    const nameToCodeMap = {
+        'Android': 'Droid',
+        'GameCube': 'GCN',
+        'Nintendo DS': 'NDS',
+        'PC': 'PC',
+        'PlayStation': 'PS',
+        'PlayStation 2': 'PS2',
+        'PlayStation 3': 'PS3',
+        'PlayStation 4': 'PS4',
+        'Wii': 'Wii',
+        'Xbox 360': '360',
+        'Xbox One': 'XBO'
+    };
+    // Defaulting to platform name will probably not work, but at least it might.
+    return platformName in nameToCodeMap ? nameToCodeMap[platformName] : platformName;
 }
 
 function convertObjectToGetParameters(object) {
